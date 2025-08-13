@@ -1,9 +1,11 @@
 import { getBestMovies, getBestMoviesByGenre, getMovieDetails } from './api.js';
-import { displayBestMovie, displayTopRated } from './ui.js';
+import { displayBestMovie, displayTopRated, displayMovieDetailsModal } from './ui.js';
+
 const bestMovieSection = document.getElementById('best-movie');
 const topRatedSection = document.getElementById('top-rated');
 const mysterySection = document.getElementById('mystery');
 const comedySection = document.getElementById('comedy');
+const detailsModal = document.getElementById('details-modal')
 
 // Best movie
 getBestMovies()
@@ -43,4 +45,9 @@ getBestMoviesByGenre('Comedy')
   })
   .then(movies => {
     displayTopRated(movies, comedySection);
+  })
+
+// Movie Details Modal
+getMovieDetails('118715').then(movie => {
+    displayMovieDetailsModal(movie, detailsModal);
   })

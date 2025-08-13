@@ -29,3 +29,42 @@ export const displayTopRated = (movies, container) => {
     container.appendChild(img);
   });
 };
+
+export const displayMovieDetailsModal = (movie, container) => {
+  container.innerHTML = "";
+
+  const img = document.createElement('img');
+  img.src = movie.image_url;
+  img.alt = movie.title;
+  img.title = movie.title;
+
+  const title = document.createElement('h2');
+  title.textContent = movie.title;
+
+  const details1 = document.createElement('p')
+  details1.textContent = `${movie.year} - ${movie.genres.join(', ')}`;
+
+  const details2 = document.createElement('div')
+  details2.textContent = `${movie.duration} minutes (${movie.countries.join('/ ')})`;
+
+  const imdb_score = document.createElement('p');
+  imdb_score.textContent = `IMDB score: ${movie.imdb_score}/10`;
+
+  const box_office_income = document.createElement('p');
+  const total_income = (movie.usa_gross_income + movie.worldwide_gross_income) / 1_000_000;
+  box_office_income.textContent = `Recettes au box office: $${total_income.toFixed(1)}m`;
+
+  const directors = document.createElement('p');
+  directors.textContent = `Réalisé par: ${movie.directors.join(', ')}`;
+
+  const description = document.createElement('p');
+  description.textContent = movie.long_description;
+
+  const actors = document.createElement('p');
+  actors.textContent = `Avec: ${movie.actors.join(', ')}`;
+
+  const closeButton = document.createElement('button');
+  closeButton.textContent = "Fermer";
+
+  container.append(img, title, details1, details2, imdb_score, box_office_income, directors, description, actors, closeButton);
+};
