@@ -24,3 +24,21 @@ export const getMovieDetails = (id) => {
   return fetch(`http://localhost:8000/api/v1/titles/${id}`)
     .then(response => response.json());
 };
+
+export const getAllGenres = () => {
+  const baseUrl = `http://localhost:8000/api/v1/genres/`;
+  const pageUrls = [
+    baseUrl,
+    baseUrl + '?page=2',
+    baseUrl + '?page=3',
+    baseUrl + '?page=4',
+    baseUrl + '?page=5',
+  ];
+
+  const pagePromises = pageUrls.map(url => fetch(url).then(res => res.json()));
+
+  return Promise.all(pagePromises).then(pagesData => {
+    const allGenres = pagesData.flatMap(page => page.results);
+    return allGenres;
+  });
+};

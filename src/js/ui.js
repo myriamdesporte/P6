@@ -68,3 +68,30 @@ export const displayMovieDetailsModal = (movie, container) => {
 
   container.append(img, title, details1, details2, imdb_score, box_office_income, directors, description, actors, closeButton);
 };
+
+export const displayGenreDropdown = (genres, container) => {
+  container.innerHTML = "";
+
+  const label = document.createElement('label');
+  label.textContent = "Autres : ";
+  label.setAttribute('for', 'genre-select');
+
+  const select = document.createElement('select');
+  select.id = 'genre-select';
+
+  // Default option
+  const defaultOption = document.createElement('option');
+  defaultOption.value = "";
+  defaultOption.textContent = "-- Sélectionnez un genre --";
+  select.appendChild(defaultOption);
+
+  // Genres list
+  genres.forEach(genre => {
+    const option = document.createElement('option');
+    option.value = genre.name;
+    option.textContent = genre.name;
+    select.appendChild(option);
+  });
+
+  container.append(label, select);
+};
