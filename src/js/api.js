@@ -1,0 +1,26 @@
+export const getBestMovies = () => {
+  const baseUrl = `http://localhost:8000/api/v1/titles/?sort_by=-imdb_score`;
+  const page1 = fetch(baseUrl).then(res => res.json());
+  const page2 = fetch(baseUrl + '&page=2').then(res => res.json());
+
+  return Promise.all([page1, page2]).then(([data1, data2]) => {
+    const allMovies = [...data1.results, ...data2.results];
+    return allMovies.map(movie => movie.id);
+  });
+};
+
+export const getBestMoviesByGenre = (genre) => {
+  const baseUrl = `http://localhost:8000/api/v1/titles/?genre=${genre}&sort_by=-imdb_score`;
+  const page1 = fetch(baseUrl).then(res => res.json());
+  const page2 = fetch(baseUrl + '&page=2').then(res => res.json());
+
+  return Promise.all([page1, page2]).then(([data1, data2]) => {
+    const allMovies = [...data1.results, ...data2.results];
+    return allMovies.map(movie => movie.id);
+  });
+};
+
+export const getMovieDetails = (id) => {
+  return fetch(`http://localhost:8000/api/v1/titles/${id}`)
+    .then(response => response.json());
+};
