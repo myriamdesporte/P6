@@ -1,75 +1,75 @@
-import { getBestMovies, getBestMoviesByGenre, getMovieDetails, getAllGenres } from './api.js';
-import { displayBestMovie, displayTopRated, displayMovieDetailsModal, displayGenreDropdown } from './ui.js';
+import {
+  getBestMovies,
+  getBestMoviesByGenre,
+  getMovieDetails,
+  getAllGenres
+} from './api.js';
 
-const bestMovieSection = document.getElementById('best-movie');
-const topRatedSection = document.getElementById('top-rated');
-const mysterySection = document.getElementById('mystery');
-const comedySection = document.getElementById('comedy');
-const detailsModal = document.getElementById('details-modal')
-const genreMenu = document.getElementById('genre-menu');
-const otherCategory = document.getElementById('other');
+import {
+  displayBestMovie,
+  displayTopRated,
+  displayMovieDetailsModal,
+  displayGenreDropdown
+} from './ui.js';
 
+// Load best movie and next six top-rated movies
+const loadBestMovies = async () => {
+  const ids = await getBestMovies();
 
-// Best movie
-getBestMovies()
-  .then(ids => {
-    const bestMovieID = ids[0];
-    return getMovieDetails(bestMovieID);
-  })
-  .then(movie => {
-    displayBestMovie(movie, bestMovieSection);
-  })
+  const bestMovieID = ids[0];
+  const bestMovieSection = document.querySelector('#best-movie');
 
-// Next 6 highest-rated movies
-getBestMovies()
-  .then(ids => {
-    const otherMovieIDs = ids.slice(1, 7);
-    return Promise.all(otherMovieIDs.map(id => getMovieDetails(id)));
-  })
-  .then(movies => {
-    displayTopRated(movies, topRatedSection);
-  })
+  const otherMovieIDs = ids.slice(1, 7);
+  const topRatedSection = document.querySelector('#top-rated');
 
-// 6 highest-rated movies in Mystery category
-getBestMoviesByGenre('Mystery')
-  .then(ids => {
-    const movieIDs = ids.slice(0, 6);
-    return Promise.all(movieIDs.map(id => getMovieDetails(id)));
-  })
-  .then(movies => {
-    displayTopRated(movies, mysterySection);
-  })
+  const [bestMovie, topRatedMovies] = await Promise.all([
+    getMovieDetails(bestMovieID),
+    Promise.all(otherMovieIDs.map(id => getMovieDetails(id))),
+  ]);
 
-// 6 highest-rated movies in Comedy category
-getBestMoviesByGenre('Comedy')
-  .then(ids => {
-    const movieIDs = ids.slice(0, 6); // on prend les suivants
-    return Promise.all(movieIDs.map(id => getMovieDetails(id)));
-  })
-  .then(movies => {
-    displayTopRated(movies, comedySection);
-  })
+  displayBestMovie(bestMovie, bestMovieSection);
+  displayTopRated(topRatedMovies, topRatedSection);
+}
 
-// Movie Details Modal
-getMovieDetails('118715').then(movie => {
-    displayMovieDetailsModal(movie, detailsModal);
-  })
+// Load the six top-rated movies in a given category
+const loadCategory = async (categoryName, categorySection) => {
+  const ids = await getBestMoviesByGenre(categoryName);
+  const movieIDs = ids.slice(0, 6);
 
-// Genres Dropdown menu
-getAllGenres().then(genres => {
+  const movies = await Promise.all(movieIDs.map(id => getMovieDetails(id)));
+  displayTopRated(movies, document.querySelector(`#${categorySection}`), categoryName);
+};
+
+// Load Movie Details
+const loadMovieDetails = async (id, modalSection) => {
+  const movie = await getMovieDetails(id);
+  displayMovieDetailsModal(movie, document.querySelector(`#${modalSection}`));
+}
+
+// Load genre dropdown menu
+const loadGenreDropdown = async () => {
+  const genres = await getAllGenres();
+  const genreMenu = document.querySelector('#genre-menu');
   displayGenreDropdown(genres, genreMenu);
 
-  const select = document.getElementById('genre-select');
-  select.addEventListener('change', (event) => {
-  const selectedGenre = event.target.value;
-  if (selectedGenre) {
-    getBestMoviesByGenre(selectedGenre).then(ids => {
-      return Promise.all(ids.slice(0, 6).map(id => getMovieDetails(id)));
-    }).then(movies => {
-      displayTopRated(movies, otherCategory);
-    });
-  } else {
-    otherCategory.innerHTML = "";
-  }
- });
-});
+  const select = genreMenu.querySelector('select');
+  select.addEventListener('change', async (event) => {
+    const selectedGenre = event.target.value;
+
+    if (selectedGenre) {
+      loadCategory(selectedGenre, 'other');
+    } else {
+      document.querySelector('#other').innerHTML = "";
+    }
+  });
+};
+
+const init = async () => {
+  loadBestMovies()
+  loadCategory('Mystery', 'first-category');
+  loadCategory('Comedy', 'second-category');
+  loadMovieDetails('88763', 'modal')
+  loadGenreDropdown();
+};
+
+init();

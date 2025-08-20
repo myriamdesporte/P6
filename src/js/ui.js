@@ -17,8 +17,14 @@ export const displayBestMovie = (movie, container) => {
   container.append(img, title, description, detailsButton);
 };
 
-export const displayTopRated = (movies, container) => {
+export const displayTopRated = (movies, container, categoryName) => {
   container.innerHTML = "";
+
+  if (categoryName) {
+    const title = document.createElement('h1');
+    title.textContent = categoryName;
+    container.appendChild(title);
+  }
 
   movies.forEach(movie => {
     const img = document.createElement('img');
