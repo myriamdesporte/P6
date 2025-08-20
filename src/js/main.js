@@ -14,12 +14,12 @@ import {
 
 // Load best movie and next six top-rated movies
 const loadBestMovies = async () => {
-  const ids = await getBestMovies();
+  const allMovieIDs = await getBestMovies();
 
-  const bestMovieID = ids[0];
+  const bestMovieID = allMovieIDs[0];
   const bestMovieSection = document.querySelector('#best-movie');
 
-  const otherMovieIDs = ids.slice(1, 7);
+  const otherMovieIDs = allMovieIDs.slice(1, 7);
   const topRatedSection = document.querySelector('#top-rated');
 
   const [bestMovie, topRatedMovies] = await Promise.all([
@@ -27,24 +27,29 @@ const loadBestMovies = async () => {
     Promise.all(otherMovieIDs.map(id => getMovieDetails(id))),
   ]);
 
-  displayBestMovie(bestMovie, bestMovieSection);
-  displayTopRated(topRatedMovies, topRatedSection);
+  displayBestMovie(bestMovie, bestMovieSection, onDetailsClick);
+  displayTopRated(topRatedMovies, topRatedSection, null, onDetailsClick);
 }
 
 // Load the six top-rated movies in a given category
-const loadCategory = async (categoryName, categorySection) => {
-  const ids = await getBestMoviesByGenre(categoryName);
-  const movieIDs = ids.slice(0, 6);
+const loadCategory = async (categoryName, sectionId) => {
+  const allCategoryIDs = await getBestMoviesByGenre(categoryName);
+  const categoryMovieIDs = allCategoryIDs.slice(0, 6);
 
-  const movies = await Promise.all(movieIDs.map(id => getMovieDetails(id)));
-  displayTopRated(movies, document.querySelector(`#${categorySection}`), categoryName);
+  const categoryMovies = await Promise.all(categoryMovieIDs.map(id => getMovieDetails(id)));
+  displayTopRated(categoryMovies, document.querySelector(`#${sectionId}`), categoryName, onDetailsClick);
 };
 
 // Load Movie Details
-const loadMovieDetails = async (id, modalSection) => {
+const loadMovieDetails = async (id, modalId) => {
   const movie = await getMovieDetails(id);
-  displayMovieDetailsModal(movie, document.querySelector(`#${modalSection}`));
+  displayMovieDetailsModal(movie, document.querySelector(`#${modalId}`));
 }
+
+// Callback function triggered when a "Details" button is clicked
+const onDetailsClick = (id) => {
+  loadMovieDetails(id, 'modal')
+};
 
 // Load genre dropdown menu
 const loadGenreDropdown = async () => {
@@ -65,10 +70,9 @@ const loadGenreDropdown = async () => {
 };
 
 const init = async () => {
-  loadBestMovies()
+  loadBestMovies();
   loadCategory('Mystery', 'first-category');
   loadCategory('Comedy', 'second-category');
-  loadMovieDetails('88763', 'modal')
   loadGenreDropdown();
 };
 

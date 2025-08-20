@@ -1,4 +1,4 @@
-export const displayBestMovie = (movie, container) => {
+export const displayBestMovie = (movie, container, onDetailsClick) => {
   container.innerHTML = "";
 
   const img = document.createElement('img');
@@ -13,11 +13,16 @@ export const displayBestMovie = (movie, container) => {
 
   const detailsButton = document.createElement('button');
   detailsButton.textContent = "Détails";
+  detailsButton.addEventListener('click', () => {
+    if (onDetailsClick) {
+      onDetailsClick(movie.id)
+    }
+  });
 
   container.append(img, title, description, detailsButton);
 };
 
-export const displayTopRated = (movies, container, categoryName) => {
+export const displayTopRated = (movies, container, categoryName, onDetailsClick) => {
   container.innerHTML = "";
 
   if (categoryName) {
@@ -32,12 +37,19 @@ export const displayTopRated = (movies, container, categoryName) => {
     img.alt = movie.title;
     img.title = movie.title;
 
+    if (onDetailsClick) {
+      img.addEventListener('click', () => {onDetailsClick(movie.id)});
+    }
+
     container.appendChild(img);
   });
 };
 
 export const displayMovieDetailsModal = (movie, container) => {
   container.innerHTML = "";
+
+  const modalContent = document.createElement('div');
+  modalContent.classList.add('modal-content');
 
   const img = document.createElement('img');
   img.src = movie.image_url;
@@ -71,8 +83,16 @@ export const displayMovieDetailsModal = (movie, container) => {
 
   const closeButton = document.createElement('button');
   closeButton.textContent = "Fermer";
+  closeButton.classList.add('close-button');
+  closeButton.addEventListener('click', () => {
+    container.style.display = 'none';
+    container.innerHTML = '';
+  });
 
-  container.append(img, title, details1, details2, imdb_score, box_office_income, directors, description, actors, closeButton);
+  modalContent.append(img, title, details1, details2, imdb_score, box_office_income, directors, description, actors, closeButton);
+
+  container.appendChild(modalContent);
+  container.style.display = 'flex';
 };
 
 export const displayGenreDropdown = (genres, container) => {
