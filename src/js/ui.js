@@ -1,9 +1,18 @@
 export const displayBestMovie = (movie, container, onDetailsClick) => {
   container.innerHTML = "";
 
+  const mediaDiv = document.createElement('div');
+  mediaDiv.classList.add('best-movie-media');
+
   const img = document.createElement('img');
   img.src = movie.image_url;
   img.alt = movie.title;
+  img.title = movie.title;
+
+  mediaDiv.appendChild(img);
+
+  const infoDiv = document.createElement('div');
+  infoDiv.classList.add('best-movie-info');
 
   const title = document.createElement('h2');
   title.textContent = movie.title;
@@ -11,15 +20,22 @@ export const displayBestMovie = (movie, container, onDetailsClick) => {
   const description = document.createElement('p');
   description.textContent = movie.description || "Aucune description disponible.";
 
+  const buttonDiv = document.createElement('div');
+  buttonDiv.classList.add('best-movie-details');
+
   const detailsButton = document.createElement('button');
   detailsButton.textContent = "Détails";
   detailsButton.addEventListener('click', () => {
     if (onDetailsClick) {
-      onDetailsClick(movie.id)
+      onDetailsClick(movie.id);
     }
   });
 
-  container.append(img, title, description, detailsButton);
+  buttonDiv.appendChild(detailsButton);
+
+  infoDiv.append(title, description, buttonDiv);
+
+  container.append(mediaDiv, infoDiv);
 };
 
 export const displayTopRated = (movies, container, categoryName, onDetailsClick) => {

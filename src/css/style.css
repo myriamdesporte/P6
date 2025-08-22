@@ -33,6 +33,81 @@ header h1 {
   margin: 0;
 }
 
+section h1 {
+  font-weight: 600;
+  font-size: 48px;
+  line-height: 100%;
+  color: black;
+  width: 835px;
+  margin: 32px auto 24px auto;
+}
+
+#best-movie {
+  width: 835px;
+  height: 369px;
+  background-color: white;
+  border: 6px solid black;
+  margin: 16px auto;
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.best-movie-media {
+  display: flex;
+  align-items: center;
+}
+
+#best-movie img {
+  width: 227px;
+  height: 334px;
+  object-fit: cover;
+}
+
+.best-movie-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex: 1;
+  position: relative;
+  padding: 0 12px;
+}
+
+.best-movie-info h2 {
+  font-weight: 600;
+  font-size: 48px;
+  line-height: 100%;
+  color: black;
+  margin: 0 24px 24px 0;
+}
+
+.best-movie-info p {
+  font-weight: 200;
+  font-size: 28px;
+  line-height: 100%;
+  margin: 0 0 16px 0;
+}
+
+.best-movie-details {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+}
+
+.best-movie-details button {
+  width: 166px;
+  height: 68px;
+  background-color: #FA0B0B;
+  color: white;
+  font-weight: 500;
+  font-size: 24px;
+  border-radius: 25px;
+  padding: 2px 4px;
+  cursor: pointer;
+}
+
 #modal {
     display: none;
     position: fixed;
