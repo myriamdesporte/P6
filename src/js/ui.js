@@ -47,18 +47,36 @@ export const displayTopRated = (movies, container, categoryName, onDetailsClick)
     container.appendChild(title);
   }
 
+  const grid = document.createElement('div');
+  grid.classList.add('top-rated-grid');
+
   movies.forEach(movie => {
+    const movieCard = document.createElement('div');
+    movieCard.classList.add('movie-card');
+
     const img = document.createElement('img');
     img.src = movie.image_url;
     img.alt = movie.title;
     img.title = movie.title;
 
+    const overlay = document.createElement('div');
+    overlay.classList.add('movie-overlay');
+
+    const movieTitle = document.createElement('h3');
+    movieTitle.textContent = movie.title;
+
+    const detailsButton = document.createElement('button');
+    detailsButton.textContent = "Détails";
     if (onDetailsClick) {
-      img.addEventListener('click', () => {onDetailsClick(movie.id)});
+      detailsButton.addEventListener('click', () => {onDetailsClick(movie.id)});
     }
 
-    container.appendChild(img);
+    overlay.append(movieTitle, detailsButton);
+    movieCard.append(img, overlay);
+    grid.appendChild(movieCard);
   });
+
+  container.appendChild(grid);
 };
 
 export const displayMovieDetailsModal = (movie, container) => {
