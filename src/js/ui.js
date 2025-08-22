@@ -133,7 +133,6 @@ export const displayGenreDropdown = (genres, container) => {
   container.innerHTML = "";
 
   const label = document.createElement('label');
-  label.textContent = "Autres : ";
   label.setAttribute('for', 'genre-select');
 
   const select = document.createElement('select');
