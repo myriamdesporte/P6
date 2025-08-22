@@ -3,6 +3,36 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  font-family: 'Oswald', sans-serif;
+}
+
+header {
+  width: 837px;
+  height: 122px;
+  background-color: #61787F;
+  border: 1px solid black;
+  padding: 16px 8px;
+  margin: 16px auto;
+  display: flex;
+  align-items: center;
+  gap: 48px;
+}
+
+header img {
+  width: 127px;
+  height: 94px;
+  object-fit: cover;
+}
+
+header h1 {
+  font-weight: 300;
+  font-size: 40px;
+  line-height: 100%;
+  color: #FFFFFF;
+  margin: 0;
+}
+
 #modal {
     display: none;
     position: fixed;
