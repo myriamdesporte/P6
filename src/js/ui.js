@@ -47,7 +47,7 @@ export const displayBestMovie = (movie, container, onDetailsClick) => {
   container.append(mediaDiv, detailsDiv);
 };
 
-export const displayTopRated = (movies, container, categoryName, onDetailsClick) => {
+export const displayTopRated = (movies, container, categoryName, onDetailsClick, onSeeMoreClick) => {
   container.innerHTML = "";
 
   if (categoryName) {
@@ -58,6 +58,7 @@ export const displayTopRated = (movies, container, categoryName, onDetailsClick)
 
   const grid = document.createElement('div');
   grid.classList.add('top-rated-grid');
+  grid.dataset.expanded = 'false'
 
   movies.forEach(movie => {
     const movieCard = document.createElement('div');
@@ -67,9 +68,7 @@ export const displayTopRated = (movies, container, categoryName, onDetailsClick)
     img.src = movie.image_url;
     img.alt = movie.title;
     img.title = movie.title;
-    img.onerror = () => {
-      img.src = '../src/assets/placeholder.png';
-    };
+    img.onerror = () => { img.src = '../src/assets/placeholder.png'; };
 
     const overlay = document.createElement('div');
     overlay.classList.add('movie-overlay');
@@ -80,7 +79,7 @@ export const displayTopRated = (movies, container, categoryName, onDetailsClick)
     const detailsButton = document.createElement('button');
     detailsButton.textContent = "Détails";
     if (onDetailsClick) {
-      detailsButton.addEventListener('click', () => {onDetailsClick(movie.id)});
+      detailsButton.addEventListener('click', () => { onDetailsClick(movie.id); });
     }
 
     overlay.append(movieTitle, detailsButton);
@@ -93,6 +92,9 @@ export const displayTopRated = (movies, container, categoryName, onDetailsClick)
   const seeMoreButton = document.createElement('button');
   seeMoreButton.classList.add('see-more');
   seeMoreButton.textContent = 'Voir plus';
+  if (onSeeMoreClick) {
+    seeMoreButton.addEventListener('click', () => { onSeeMoreClick(grid, seeMoreButton); });
+  }
 
   container.appendChild(seeMoreButton);
 };

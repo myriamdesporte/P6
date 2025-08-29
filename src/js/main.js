@@ -28,7 +28,7 @@ const loadBestMovies = async () => {
   ]);
 
   displayBestMovie(bestMovie, bestMovieSection, onDetailsClick);
-  displayTopRated(topRatedMovies, topRatedSection, null, onDetailsClick);
+  displayTopRated(topRatedMovies, topRatedSection, null, onDetailsClick, onSeeMoreClick);
 }
 
 // Load the six top-rated movies in a given category
@@ -37,7 +37,7 @@ const loadCategory = async (categoryName, sectionId) => {
   const categoryMovieIDs = allCategoryIDs.slice(0, 6);
 
   const categoryMovies = await Promise.all(categoryMovieIDs.map(id => getMovieDetails(id)));
-  displayTopRated(categoryMovies, document.querySelector(`#${sectionId}`), categoryName, onDetailsClick);
+  displayTopRated(categoryMovies, document.querySelector(`#${sectionId}`), categoryName, onDetailsClick, onSeeMoreClick);
 };
 
 // Load Movie Details
@@ -45,11 +45,6 @@ const loadMovieDetails = async (id, modalId) => {
   const movie = await getMovieDetails(id);
   displayMovieDetailsModal(movie, document.querySelector(`#${modalId}`));
 }
-
-// Callback function triggered when a "Details" button is clicked
-const onDetailsClick = (id) => {
-  loadMovieDetails(id, 'modal')
-};
 
 // Load genre dropdown menu
 const loadGenreDropdown = async () => {
@@ -69,7 +64,28 @@ const loadGenreDropdown = async () => {
   });
 };
 
-const init = async () => {
+// Callback function triggered when a "Details" button is clicked
+const onDetailsClick = (id) => {
+  loadMovieDetails(id, 'modal')
+};
+
+// Callback function triggered when a "SeeMore" button is clicked
+const onSeeMoreClick = (grid, button) => {
+  const isExpanded = grid.dataset.expanded === 'true';
+
+  if (!isExpanded) {
+    grid.style.height = 'auto';
+    button.textContent = 'Voir moins';
+    grid.dataset.expanded = 'true';
+  } else {
+    grid.style.height = '660px';
+    button.textContent = 'Voir plus';
+    grid.dataset.expanded = 'false';
+  }
+};
+
+
+const init = () => {
   loadBestMovies();
   loadCategory('Mystery', 'first-category');
   loadCategory('Comedy', 'second-category');
