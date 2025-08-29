@@ -11,6 +11,9 @@ export const displayBestMovie = (movie, container, onDetailsClick) => {
 
   mediaDiv.appendChild(img);
 
+  const detailsDiv = document.createElement('div');
+  detailsDiv.classList.add('best-movie-details')
+
   const infoDiv = document.createElement('div');
   infoDiv.classList.add('best-movie-info');
 
@@ -21,7 +24,7 @@ export const displayBestMovie = (movie, container, onDetailsClick) => {
   description.textContent = movie.description || "Aucune description disponible.";
 
   const buttonDiv = document.createElement('div');
-  buttonDiv.classList.add('best-movie-details');
+  buttonDiv.classList.add('details-button');
 
   const detailsButton = document.createElement('button');
   detailsButton.textContent = "Détails";
@@ -33,9 +36,11 @@ export const displayBestMovie = (movie, container, onDetailsClick) => {
 
   buttonDiv.appendChild(detailsButton);
 
-  infoDiv.append(title, description, buttonDiv);
+  infoDiv.append(title, description);
 
-  container.append(mediaDiv, infoDiv);
+  detailsDiv.append(infoDiv, buttonDiv)
+
+  container.append(mediaDiv, detailsDiv);
 };
 
 export const displayTopRated = (movies, container, categoryName, onDetailsClick) => {

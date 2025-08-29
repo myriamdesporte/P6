@@ -1,111 +1,118 @@
-@import "tailwindcss";
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 body {
   font-family: 'Oswald', sans-serif;
-  padding-bottom: 64px
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  max-width: 1140px;
+  width: 90%;
+  margin: 16px 0;
 }
 
 header {
-  width: 837px;
-  height: 122px;
   background-color: #61787F;
   border: 1px solid black;
-  padding: 16px 8px;
-  margin: 16px auto;
   display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 48px;
+  padding: 8px 16px;
 }
 
 header img {
-  width: 127px;
-  height: 94px;
-  object-fit: cover;
+  max-width: 127px;
+  width: 100%;
+  height: auto;
 }
 
 header h1 {
   font-weight: 300;
   font-size: 40px;
-  line-height: 100%;
+  line-height: 1.2;
   color: #FFFFFF;
   margin: 0;
+  display: none;
 }
 
 section h1 {
+  text-align: center;
   font-weight: 600;
-  font-size: 48px;
-  line-height: 100%;
+  font-size: 32px;
   color: black;
-  width: 835px;
-  margin: 32px auto 24px auto;
+  margin: 24px 0;
 }
 
 #best-movie {
-  width: 835px;
-  height: 369px;
+  width: 100%;
   background-color: white;
   border: 6px solid black;
-  margin: 16px auto;
   display: flex;
-  gap: 16px;
-  padding: 16px;
+  flex-direction: column;
   box-sizing: border-box;
-  position: relative;
 }
 
 .best-movie-media {
-  display: flex;
-  align-items: center;
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
 }
 
-#best-movie img {
-  width: 227px;
-  height: 334px;
+.best-movie-media img {
+  width: 100%;
+  height: 240px;
+  display: block;
   object-fit: cover;
+}
+
+.best-movie-details {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
 }
 
 .best-movie-info {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  flex: 1;
-  position: relative;
-  padding: 0 12px;
+  align-items: flex-start;
+  gap: 16px;
 }
 
 .best-movie-info h2 {
   font-weight: 600;
-  font-size: 48px;
-  line-height: 100%;
+  font-size: 32px;
+  line-height: 1.2;
   color: black;
-  margin: 0 24px 24px 0;
+  margin: 0;
 }
 
 .best-movie-info p {
   font-weight: 200;
-  font-size: 28px;
-  line-height: 100%;
-  margin: 0 0 16px 0;
+  font-size: 16px;
+  line-height: 1.2;
+  margin: 0;
 }
 
-.best-movie-details {
-  position: absolute;
-  bottom: 16px;
-  right: 16px;
+.details-button {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
-.best-movie-details button {
-  width: 166px;
-  height: 68px;
+.details-button button {
   background-color: #FA0B0B;
   color: white;
   font-weight: 500;
-  font-size: 24px;
+  font-size: 14px;
   border-radius: 25px;
-  padding: 2px 4px;
+  padding: 12px 24px;
+  margin: 8px;
+  border: none;
   cursor: pointer;
 }
 
@@ -204,5 +211,84 @@ section h1 {
 }
 
 #modal .close-button {
-    cursor: pointer;
+  cursor: pointer;
+}
+
+@media screen and (min-width: 481px) {
+  header {
+    justify-content: flex-start;
+    gap: 32px;
+  }
+
+  header h1 {
+    display: block;
+  }
+
+  section h1 {
+    text-align: left;
+    font-size: 40px;
+  }
+
+  #best-movie {
+    flex-direction: row;
+  }
+
+  .best-movie-media {
+    width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .best-movie-media img {
+    height: auto;
+    width: auto;
+    min-width: 160px;
+    object-fit: contain;
+  }
+
+  .best-movie-details {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .best-movie-info {
+    width: auto;
+  }
+
+  .best-movie-info h2 {
+    font-size: 40px;
+  }
+
+  .best-movie-info p {
+    font-size: 24px;
+  }
+
+  .details-button {
+    margin-top: auto;
+    justify-content: flex-end;
+  }
+
+  .details-button button {
+    font-size: 20px;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  section h1 {
+    font-size: 48px;
+  }
+
+  .best-movie-info h2 {
+    font-size: 48px;
+  }
+
+  .best-movie-info p {
+    font-size: 28px;
+  }
+
+  .details-button button {
+    font-size: 24px;
+  }
 }
