@@ -205,19 +205,49 @@ section h1 {
     z-index: 1000;
 }
 
-#modal .modal-content {
+.modal-content {
     background-color: white;
+    border: 6px solid black;
     padding: 20px;
-    border: 2px solid black;
-    max-width: 600px;
     width: 90%;
+    max-width: 900px;
     max-height: 90%;
-    overflow-y: auto;
+    margin: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    display: flex;
 }
 
-#modal .close-button {
+.close-button {
   cursor: pointer;
+  border: none;
+  font-weight: 500;
 }
+
+.close-top {
+  color: #FA0B0B;
+  font-size: 32px;
+  background: none;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: block;
+}
+
+.close-bottom {
+  background-color: #FA0B0B;
+  color: white;
+   font-weight: 500;
+  font-size: 20px;
+  border-radius: 25px;
+  padding: 12px 24px;
+  border: none;
+  margin: auto;
+  display:none;
+}
+
 
 @media screen and (min-width: 481px) {
   header {
@@ -308,5 +338,13 @@ section h1 {
 
   .see-more {
     display: none;
+  }
+
+  .close-top {
+    display: none;
+  }
+
+  .close-bottom {
+    display: block;
   }
 }

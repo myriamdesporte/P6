@@ -105,49 +105,85 @@ export const displayMovieDetailsModal = (movie, container) => {
   const modalContent = document.createElement('div');
   modalContent.classList.add('modal-content');
 
-  const img = document.createElement('img');
-  img.src = movie.image_url;
-  img.alt = movie.title;
-  img.title = movie.title;
-
-  img.onerror = () => {
-      img.src = '../src/assets/placeholder.png';
-    };
-
-  const title = document.createElement('h2');
-  title.textContent = movie.title;
-
-  const details1 = document.createElement('p')
-  details1.textContent = `${movie.year} - ${movie.genres.join(', ')}`;
-
-  const details2 = document.createElement('div')
-  details2.textContent = `${movie.duration} minutes (${movie.countries.join('/ ')})`;
-
-  const imdb_score = document.createElement('p');
-  imdb_score.textContent = `IMDB score: ${movie.imdb_score}/10`;
-
-  const box_office_income = document.createElement('p');
-  const total_income = (movie.usa_gross_income + movie.worldwide_gross_income) / 1_000_000;
-  box_office_income.textContent = `Recettes au box office: $${total_income.toFixed(1)}m`;
-
-  const directors = document.createElement('p');
-  directors.textContent = `Réalisé par: ${movie.directors.join(', ')}`;
-
-  const description = document.createElement('p');
-  description.textContent = movie.long_description;
-
-  const actors = document.createElement('p');
-  actors.textContent = `Avec: ${movie.actors.join(', ')}`;
-
-  const closeButton = document.createElement('button');
-  closeButton.textContent = "Fermer";
-  closeButton.classList.add('close-button');
-  closeButton.addEventListener('click', () => {
+  // Close button (mobile/tablet)
+  const closeButtonTop = document.createElement('button');
+  closeButtonTop.textContent = "×";
+  closeButtonTop.setAttribute('aria-label', 'Fermer');
+  closeButtonTop.classList.add('close-button', 'close-top');
+  closeButtonTop.addEventListener('click', () => {
     container.style.display = 'none';
     container.innerHTML = '';
   });
 
-  modalContent.append(img, title, details1, details2, imdb_score, box_office_income, directors, description, actors, closeButton);
+  // Title
+  const title = document.createElement('h2');
+  title.textContent = movie.title || "Titre indisponible";
+
+  // Informations
+  const details1 = document.createElement('p');
+  details1.textContent = `${movie.year || 'N/A'} - ${(movie.genres || []).join(', ')}`;
+
+  const details2 = document.createElement('p');
+  details2.textContent = `${movie.duration || '?'} minutes (${(movie.countries || []).join('/ ')})`;
+
+  const imdb_score = document.createElement('p');
+  imdb_score.textContent = `IMDB score: ${movie.imdb_score || 'N/A'}/10`;
+
+  const usa = movie.usa_gross_income || 0;
+  const worldwide = movie.worldwide_gross_income || 0;
+  const total_income = (usa + worldwide) / 1_000_000;
+  const box_office_income = document.createElement('p');
+  box_office_income.textContent = `Recettes au box office: $${total_income.toFixed(1)}m`;
+
+  const directors = document.createElement('p');
+  directors.textContent = `Réalisé par: ${(movie.directors || []).join(', ')}`;
+  directors.classList.add('directors');
+
+  // Description
+  const description = document.createElement('p');
+  description.textContent = movie.long_description || "Aucune description disponible.";
+  description.classList.add('description');
+
+  // Image
+  const img = document.createElement('img');
+  img.src = movie.image_url;
+  img.alt = `Affiche du film ${movie.title}`;
+  img.title = movie.title;
+  img.classList.add('movie-img');
+  img.onerror = () => {
+    img.src = '../src/assets/placeholder.png';
+  };
+
+  // Actors
+  const actors = document.createElement('p');
+  actors.textContent = `Avec: ${(movie.actors || []).join(', ')}`;
+  actors.classList.add('actors');
+
+  // Close button (desktop)
+  const closeButtonBottom = document.createElement('button');
+  closeButtonBottom.textContent = "Fermer";
+  closeButtonBottom.setAttribute('aria-label', 'Fermer');
+  closeButtonBottom.classList.add('close-button', 'close-bottom');
+  closeButtonBottom.addEventListener('click', () => {
+    container.style.display = 'none';
+    container.innerHTML = '';
+  });
+
+  // Head content
+  const headContent = document.createElement('div');
+  headContent.classList.add('text-content');
+  headContent.append(title, details1, details2, imdb_score, box_office_income);
+
+  // Modal content
+  modalContent.append(
+    closeButtonTop,
+    headContent,
+    directors,
+    description,
+    img,
+    actors,
+    closeButtonBottom
+  );
 
   container.appendChild(modalContent);
   container.style.display = 'flex';
