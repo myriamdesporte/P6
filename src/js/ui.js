@@ -89,6 +89,12 @@ export const displayTopRated = (movies, container, categoryName, onDetailsClick)
   });
 
   container.appendChild(grid);
+
+  const seeMoreButton = document.createElement('button');
+  seeMoreButton.classList.add('see-more');
+  seeMoreButton.textContent = 'Voir plus';
+
+  container.appendChild(seeMoreButton);
 };
 
 export const displayMovieDetailsModal = (movie, container) => {

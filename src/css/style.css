@@ -124,6 +124,19 @@ section h1 {
   overflow: hidden;
 }
 
+.see-more {
+  display: block;
+  background-color: #FA0B0B;
+  color: white;
+  font-weight: 500;
+  font-size: 16px;
+  margin: 16px auto;
+  padding: 8px 16px;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+}
+
 .movie-card {
   position: relative;
   height: 320px;
@@ -291,5 +304,9 @@ section h1 {
   .top-rated-grid {
     grid-template-columns: repeat(3, 1fr);
     height: auto;
+  }
+
+  .see-more {
+    display: none;
   }
 }
