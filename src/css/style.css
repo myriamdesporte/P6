@@ -118,18 +118,15 @@ section h1 {
 
 .top-rated-grid {
   display: grid;
-  grid-template-columns: 252px 252px 252px;
-  grid-template-rows: 252px 252px;
-  gap: 40px;
-  width: 835px;
-  margin: 16px auto;
+  grid-template-columns: 1fr;
+  height: 660px;
+  gap: 20px;
+  overflow: hidden;
 }
 
 .movie-card {
   position: relative;
-  width: 252px;
-  height: 252px;
-  overflow: hidden;
+  height: 320px;
 }
 
 .movie-card img {
@@ -143,15 +140,13 @@ section h1 {
   top: 30px;
   left: 0;
   width: 100%;
-  height: 102px;
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
+  height: 110px;
+  background-color: rgba(0, 0, 0, 0.4);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  opacity: 0;
-  padding: 8px 12px;
-  opacity: 0.8;
+  justify-content: flex-start;
+  padding: 8px 16px;
+  box-sizing: border-box;
 }
 
 .movie-overlay h3 {
@@ -162,16 +157,16 @@ section h1 {
 }
 
 .movie-overlay button {
-  align-self: flex-end;
-  width: 81px;
-  height: 25px;
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
   background-color: #2D2C2C;
   color: white;
   font-weight: 500;
   font-size: 14px;
   border: none;
   border-radius: 25px;
-  padding: 2px 4px;
+  padding: 8px 16px;
   cursor: pointer;
 }
 
@@ -270,6 +265,10 @@ section h1 {
   .details-button button {
     font-size: 20px;
   }
+
+  .top-rated-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media screen and (min-width: 769px) {
@@ -287,5 +286,10 @@ section h1 {
 
   .details-button button {
     font-size: 24px;
+  }
+
+  .top-rated-grid {
+    grid-template-columns: repeat(3, 1fr);
+    height: auto;
   }
 }
