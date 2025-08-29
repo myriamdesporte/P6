@@ -9,6 +9,10 @@ export const displayBestMovie = (movie, container, onDetailsClick) => {
   img.alt = movie.title;
   img.title = movie.title;
 
+  img.onerror = () => {
+      img.src = '../src/assets/placeholder.png';
+    };
+
   mediaDiv.appendChild(img);
 
   const detailsDiv = document.createElement('div');
@@ -63,6 +67,9 @@ export const displayTopRated = (movies, container, categoryName, onDetailsClick)
     img.src = movie.image_url;
     img.alt = movie.title;
     img.title = movie.title;
+    img.onerror = () => {
+      img.src = '../src/assets/placeholder.png';
+    };
 
     const overlay = document.createElement('div');
     overlay.classList.add('movie-overlay');
@@ -94,6 +101,10 @@ export const displayMovieDetailsModal = (movie, container) => {
   img.src = movie.image_url;
   img.alt = movie.title;
   img.title = movie.title;
+
+  img.onerror = () => {
+      img.src = '../src/assets/placeholder.png';
+    };
 
   const title = document.createElement('h2');
   title.textContent = movie.title;
