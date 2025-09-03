@@ -105,9 +105,9 @@ export const displayMovieDetailsModal = (movie, container) => {
   const modalContent = document.createElement('div');
   modalContent.classList.add('modal-content');
 
-  // Close button (mobile/tablet)
+  // --- Close buttons ---
   const closeButtonTop = document.createElement('button');
-  closeButtonTop.textContent = "×";
+  closeButtonTop.textContent = "❌";
   closeButtonTop.setAttribute('aria-label', 'Fermer');
   closeButtonTop.classList.add('close-button', 'close-top');
   closeButtonTop.addEventListener('click', () => {
@@ -115,11 +115,19 @@ export const displayMovieDetailsModal = (movie, container) => {
     container.innerHTML = '';
   });
 
-  // Title
+  const closeButtonBottom = document.createElement('button');
+  closeButtonBottom.textContent = "Fermer";
+  closeButtonBottom.setAttribute('aria-label', 'Fermer');
+  closeButtonBottom.classList.add('close-button', 'close-bottom');
+  closeButtonBottom.addEventListener('click', () => {
+    container.style.display = 'none';
+    container.innerHTML = '';
+  });
+
+  // --- Text info ---
   const title = document.createElement('h2');
   title.textContent = movie.title || "Titre indisponible";
 
-  // Informations
   const details1 = document.createElement('p');
   details1.textContent = `${movie.year || 'N/A'} - ${(movie.genres || []).join(', ')}`;
 
@@ -135,56 +143,74 @@ export const displayMovieDetailsModal = (movie, container) => {
   const box_office_income = document.createElement('p');
   box_office_income.textContent = `Recettes au box office: $${total_income.toFixed(1)}m`;
 
-  const directors = document.createElement('p');
-  directors.textContent = `Réalisé par: ${(movie.directors || []).join(', ')}`;
-  directors.classList.add('directors');
+  const directorsLabel = document.createElement('p');
+  directorsLabel.textContent = "Réalisé par: ";
+  directorsLabel.classList.add('directed-by-label');
 
-  // Description
-  const description = document.createElement('p');
-  description.textContent = movie.long_description || "Aucune description disponible.";
-  description.classList.add('description');
+  const directorsText = document.createElement('p');
+  directorsText.textContent = `${(movie.directors || []).join(', ')}`;
+  directorsText.classList.add('movie-directors');
 
-  // Image
-  const img = document.createElement('img');
-  img.src = movie.image_url;
-  img.alt = `Affiche du film ${movie.title}`;
-  img.title = movie.title;
-  img.classList.add('movie-img');
-  img.onerror = () => {
-    img.src = '../src/assets/placeholder.png';
+  const directorsContent = document.createElement('div');
+  directorsContent.classList.add('directors-content');
+  directorsContent.append(directorsLabel, directorsText);
+
+  const movieInfo = document.createElement('div');
+  movieInfo.classList.add('movie-info');
+  movieInfo.append(title, details1, details2, imdb_score, box_office_income);
+
+  const movieTopDetails = document.createElement('div');
+  movieTopDetails.classList.add('movie-top-details');
+  movieTopDetails.append(movieInfo, directorsContent);
+
+  // --- Images ---
+  const mobileImage = document.createElement('img');
+  mobileImage.src = movie.image_url;
+  mobileImage.alt = `Affiche du film ${movie.title}`;
+  mobileImage.title = movie.title;
+  mobileImage.classList.add('mobile-img');
+  mobileImage.onerror = () => {
+    mobileImage.src = '../src/assets/placeholder.png';
   };
 
-  // Actors
-  const actors = document.createElement('p');
-  actors.textContent = `Avec: ${(movie.actors || []).join(', ')}`;
-  actors.classList.add('actors');
+  const desktopImage = document.createElement('img');
+  desktopImage.src = movie.image_url;
+  desktopImage.alt = `Affiche du film ${movie.title}`;
+  desktopImage.title = movie.title;
+  desktopImage.classList.add('desktop-img');
+  desktopImage.onerror = () => {
+    desktopImage.src = '../src/assets/placeholder.png';
+  };
 
-  // Close button (desktop)
-  const closeButtonBottom = document.createElement('button');
-  closeButtonBottom.textContent = "Fermer";
-  closeButtonBottom.setAttribute('aria-label', 'Fermer');
-  closeButtonBottom.classList.add('close-button', 'close-bottom');
-  closeButtonBottom.addEventListener('click', () => {
-    container.style.display = 'none';
-    container.innerHTML = '';
-  });
+  // --- Actors ---
+  const actorsLabel = document.createElement('p');
+  actorsLabel.textContent = "Avec: ";
+  actorsLabel.classList.add('with-label');
 
-  // Head content
-  const headContent = document.createElement('div');
-  headContent.classList.add('text-content');
-  headContent.append(title, details1, details2, imdb_score, box_office_income);
+  const actorsText = document.createElement('p');
+  actorsText.textContent = `${(movie.actors || []).join(', ')}`;
+  actorsText.classList.add('movie-actors');
 
-  // Modal content
-  modalContent.append(
-    closeButtonTop,
-    headContent,
-    directors,
-    description,
-    img,
-    actors,
-    closeButtonBottom
-  );
+  const actorsContent = document.createElement('div');
+  actorsContent.classList.add('actors-content');
+  actorsContent.append(actorsLabel, actorsText);
 
+  // --- Description ---
+  const description = document.createElement('p');
+  description.textContent = movie.long_description || "Aucune description disponible.";
+  description.classList.add('movie-description');
+
+  // --- Modal Header & Footer ---
+  const modalHeader = document.createElement('div');
+  modalHeader.classList.add('modal-header');
+  modalHeader.append(movieTopDetails, desktopImage, closeButtonTop);
+
+  const modalFooter = document.createElement('div');
+  modalFooter.classList.add('modal-footer');
+  modalFooter.append(closeButtonBottom);
+
+  // --- Compose Modal ---
+  modalContent.append(modalHeader, description, mobileImage, actorsContent, modalFooter);
   container.appendChild(modalContent);
   container.style.display = 'flex';
 };
