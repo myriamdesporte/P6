@@ -51,7 +51,7 @@ export const displayTopRated = (movies, container, categoryName, onDetailsClick,
   container.innerHTML = "";
 
   if (categoryName) {
-    const title = document.createElement('h1');
+    const title = document.createElement('h2');
     title.textContent = categoryName;
     container.appendChild(title);
   }

@@ -36,7 +36,7 @@ header h1 {
   display: none;
 }
 
-section h1 {
+h2 {
   text-align: center;
   font-weight: 600;
   font-size: 32px;
@@ -326,7 +326,7 @@ section h1 {
     display: block;
   }
 
-  section h1 {
+  h2 {
     text-align: left;
     font-size: 40px;
   }
@@ -382,7 +382,7 @@ section h1 {
 }
 
 @media screen and (min-width: 769px) {
-  section h1 {
+  h2 {
     font-size: 48px;
   }
 
