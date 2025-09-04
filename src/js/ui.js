@@ -106,23 +106,23 @@ export const displayMovieDetailsModal = (movie, container) => {
   modalContent.classList.add('modal-content');
 
   // --- Close buttons ---
+  const closeModal = () => {
+    container.style.display = 'none';
+    container.innerHTML = '';
+    document.body.classList.remove('modal-open');
+  };
+
   const closeButtonTop = document.createElement('button');
   closeButtonTop.textContent = "❌";
   closeButtonTop.setAttribute('aria-label', 'Fermer');
   closeButtonTop.classList.add('close-button', 'close-top');
-  closeButtonTop.addEventListener('click', () => {
-    container.style.display = 'none';
-    container.innerHTML = '';
-  });
+  closeButtonTop.addEventListener('click', closeModal);
 
   const closeButtonBottom = document.createElement('button');
   closeButtonBottom.textContent = "Fermer";
   closeButtonBottom.setAttribute('aria-label', 'Fermer');
   closeButtonBottom.classList.add('close-button', 'close-bottom');
-  closeButtonBottom.addEventListener('click', () => {
-    container.style.display = 'none';
-    container.innerHTML = '';
-  });
+  closeButtonBottom.addEventListener('click', closeModal);
 
   // --- Text info ---
   const title = document.createElement('h2');
@@ -213,6 +213,8 @@ export const displayMovieDetailsModal = (movie, container) => {
   modalContent.append(modalHeader, description, mobileImage, actorsContent, modalFooter);
   container.appendChild(modalContent);
   container.style.display = 'flex';
+
+  document.body.classList.add('modal-open');
 };
 
 export const displayGenreDropdown = (genres, container) => {
