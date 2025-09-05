@@ -1,3 +1,5 @@
+import placeholder from '../assets/placeholder.png';
+
 export const displayBestMovie = (movie, container, onDetailsClick) => {
   container.innerHTML = "";
 
@@ -10,7 +12,7 @@ export const displayBestMovie = (movie, container, onDetailsClick) => {
   img.title = movie.title;
 
   img.onerror = () => {
-      img.src = '../src/assets/placeholder.png';
+      img.src = placeholder;
     };
 
   mediaDiv.appendChild(img);
@@ -68,7 +70,7 @@ export const displayTopRated = (movies, container, categoryName, onDetailsClick,
     img.src = movie.image_url;
     img.alt = movie.title;
     img.title = movie.title;
-    img.onerror = () => { img.src = '../src/assets/placeholder.png'; };
+    img.onerror = () => { img.src = placeholder; };
 
     const overlay = document.createElement('div');
     overlay.classList.add('movie-overlay');
@@ -170,7 +172,7 @@ export const displayMovieDetailsModal = (movie, container) => {
   mobileImage.title = movie.title;
   mobileImage.classList.add('mobile-img');
   mobileImage.onerror = () => {
-    mobileImage.src = '../src/assets/placeholder.png';
+    mobileImage.src = placeholder;
   };
 
   const desktopImage = document.createElement('img');
@@ -179,7 +181,7 @@ export const displayMovieDetailsModal = (movie, container) => {
   desktopImage.title = movie.title;
   desktopImage.classList.add('desktop-img');
   desktopImage.onerror = () => {
-    desktopImage.src = '../src/assets/placeholder.png';
+    desktopImage.src = placeholder;
   };
 
   // --- Actors ---
