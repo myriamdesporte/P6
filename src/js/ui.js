@@ -223,22 +223,36 @@ export const displayGenreDropdown = (genres, container) => {
   const label = document.createElement('label');
   label.setAttribute('for', 'genre-select');
 
-  const select = document.createElement('select');
-  select.id = 'genre-select';
+  const customSelect = document.createElement('div');
+  customSelect.classList.add('custom-select');
 
-  // Default option
-  const defaultOption = document.createElement('option');
-  defaultOption.value = "";
-  defaultOption.textContent = "-- Sélectionnez un genre --";
-  select.appendChild(defaultOption);
+  const selected = document.createElement('div');
+  selected.classList.add('selected');
+  selected.textContent =  genres[0].name;
 
-  // Genres list
-  genres.forEach(genre => {
-    const option = document.createElement('option');
-    option.value = genre.name;
-    option.textContent = genre.name;
-    select.appendChild(option);
+  const options = document.createElement('ul');
+  options.classList.add('options');
+  options.style.display = 'none';
+
+  genres.forEach((genre, index) => {
+    const li = document.createElement('li');
+    li.textContent = genre.name;
+
+    const check = document.createElement('span');
+    check.textContent = "✅";
+    check.classList.add('check');
+    li.appendChild(check);
+
+    if(index === 0) {
+      li.classList.add('selected');
+      check.style.display = 'inline';
+    } else {
+      check.style.display = 'none';
+    }
+
+    options.appendChild(li);
   });
 
-  container.append(label, select);
+  customSelect.append(selected, options);
+  container.append(label, customSelect);
 };

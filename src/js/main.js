@@ -32,12 +32,21 @@ const loadBestMovies = async () => {
 }
 
 // Load the six top-rated movies in a given category
-const loadCategory = async (categoryName, sectionId) => {
+const loadCategory = async (categoryName, sectionId, showTitle = true) => {
   const allCategoryIDs = await getBestMoviesByGenre(categoryName);
   const categoryMovieIDs = allCategoryIDs.slice(0, 6);
 
-  const categoryMovies = await Promise.all(categoryMovieIDs.map(id => getMovieDetails(id)));
-  displayTopRated(categoryMovies, document.querySelector(`#${sectionId}`), categoryName, onDetailsClick, onSeeMoreClick);
+  const categoryMovies = await Promise.all(
+    categoryMovieIDs.map(id => getMovieDetails(id))
+  );
+
+  displayTopRated(
+    categoryMovies,
+    document.querySelector(`#${sectionId}`),
+    showTitle ? categoryName : undefined,
+    onDetailsClick,
+    onSeeMoreClick
+  );
 };
 
 // Load Movie Details
@@ -52,15 +61,39 @@ const loadGenreDropdown = async () => {
   const genreMenu = document.querySelector('#genre-menu');
   displayGenreDropdown(genres, genreMenu);
 
-  const select = genreMenu.querySelector('select');
-  select.addEventListener('change', async (event) => {
-    const selectedGenre = event.target.value;
+  const customSelect = genreMenu.querySelector('.custom-select');
+  const selected = customSelect.querySelector('.selected');
+  const options = customSelect.querySelector('.options');
+  const items = options.querySelectorAll('li');
 
-    if (selectedGenre) {
-      loadCategory(selectedGenre, 'other');
-    } else {
-      document.querySelector('#other').innerHTML = "";
-    }
+  if(genres.length > 0) {
+    loadCategory(genres[0].name, 'other', false);
+  }
+
+  items.forEach(item => {
+    item.addEventListener('click', () => {
+      items.forEach(i => {
+        i.classList.remove('selected');
+        i.querySelector('.check').style.display = 'none';
+      });
+
+      item.classList.add('selected');
+      item.querySelector('.check').style.display = 'inline';
+      selected.textContent = item.textContent.replace("✅", "");
+
+      options.style.display = 'none';
+
+      const selectedGenre = item.textContent.replace("✅", "");
+      if (selectedGenre) {
+        loadCategory(selectedGenre, 'other', false);
+      } else {
+        document.querySelector('#other').innerHTML = "";
+      }
+    });
+  });
+
+  selected.addEventListener('click', () => {
+    options.style.display = options.style.display === 'block' ? 'none' : 'block';
   });
 };
 
@@ -83,7 +116,6 @@ const onSeeMoreClick = (grid, button) => {
     grid.dataset.expanded = 'false';
   }
 };
-
 
 const init = () => {
   loadBestMovies();
