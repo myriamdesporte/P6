@@ -9,20 +9,28 @@
   const page2 = fetch(baseUrl + '&page=2').then(res => res.json());
 
   const [data1, data2] = await Promise.all([page1, page2])
-  const allMovies = [...data1.results, ...data2.results];
+  const allMovies = [...data1.results, ...data2.results]
   return allMovies.map(movie => movie.id);
 };
 
 /**
- * Get the best-rated movies from the API for a given genre (page 1 and 2).
+ * Get the best-rated movies from the API for a given genre (page 1 and optional page 2).
+ * If the second page does not exist, only the results from the first page are returned.
  *
  * @param {string} genre - The movie genre to filter by (e.g., "Comedy", "Mystery").
  * @returns {Promise<string[]>} A promise that resolves to an array of movie IDs.
  */
 export const getBestMoviesByGenre = async (genre) => {
   const baseUrl = `http://localhost:8000/api/v1/titles/?genre=${genre}&sort_by=-imdb_score`;
-  const page1 = fetch(baseUrl).then(res => res.json());
-  const page2 = fetch(baseUrl + '&page=2').then(res => res.json());
+
+  const page1 = await fetch(baseUrl).then(res => res.json());
+
+  let page2 = { results: [] };
+  try {
+    const res2 = await fetch(baseUrl + '&page=2');
+    if (res2.ok) page2 = await res2.json();
+  } catch (err) {
+  }
 
   const [data1, data2] = await Promise.all([page1, page2]);
   const allMovies = [...data1.results, ...data2.results];
